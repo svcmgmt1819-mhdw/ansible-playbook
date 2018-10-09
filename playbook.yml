@@ -1,0 +1,10 @@
+#!/usr/bin/env ansible-playbook
+---
+
+    - name: Basic fresh VM tasks
+      hosts: svcmgmt-docker
+      roles:
+        - apparmor
+        - docker
+        - login
+        - other_packages

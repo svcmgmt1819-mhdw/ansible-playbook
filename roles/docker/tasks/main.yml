@@ -1,0 +1,32 @@
+---
+
+    - name: Make sure there are no old docker versions around
+      apt:
+        name: "{{ item }}"
+        state: absent
+      with_items: "{{ deprecated_docker_pkg }}"
+      
+    - name: Install prerequisites for SSL repositories
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items: "{{ ssl_deps }}"
+
+    - name: Add docker repository signing key
+      apt_key:
+        id: 0EBFCD88
+        url: "https://download.docker.com/linux/debian/gpg"
+        state: present
+    
+    - name: Add docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+        update_cache: yes
+    
+    - name: Install docker packages
+      apt:
+        name: "docker-ce"
+        state: present
+        update_cache: yes

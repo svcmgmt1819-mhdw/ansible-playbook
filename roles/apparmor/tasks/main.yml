@@ -1,0 +1,22 @@
+---
+    - name: Playbook only supports Debian-based systems
+      assert:
+        that: "ansible_os_family == '{{ supported_os }}'"
+
+    - name: Install AppArmor packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items: "{{ packages }}"
+
+    - name: Activate AppArmor
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(.*)"$'
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor"'
+        backrefs: yes
+
+#    - name: Update GRUB configuration
+#      command: /usr/sbin/update-grub
+#

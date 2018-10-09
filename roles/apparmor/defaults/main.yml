@@ -1,0 +1,8 @@
+---
+
+    supported_os: "{% if ansible_os_family == 'Debian' %}Debian{% else %}Unsupported{% endif %}"
+    packages:
+        - apparmor
+        - apparmor-profiles
+        - apparmor-profiles-extra
+        - apparmor-utils

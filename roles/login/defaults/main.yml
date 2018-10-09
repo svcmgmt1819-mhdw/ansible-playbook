@@ -1,0 +1,4 @@
+---
+    users:
+        - { name: mhuens2s, sshkey: "{{ lookup('file', 'mhuens2s.pub') }}" }
+        - { name: dwehne2s, sshkey: "{{ lookup('file', 'mhuens2s.pub') }}" }

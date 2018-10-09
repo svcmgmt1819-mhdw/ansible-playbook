@@ -1,0 +1,7 @@
+---
+
+    supported_os: "{% if ansible_os_family == 'Debian' %}Debian{% else %}Unsupported{% endif %}"
+    packages:
+        - open-vm-tools
+    services:
+        - docker

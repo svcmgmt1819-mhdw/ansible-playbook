@@ -1,0 +1,18 @@
+---
+    - name: Playbook only supports Debian-based systems
+      assert:
+        that: "ansible_os_family == '{{ supported_os }}'"
+
+    - name: Install other needed packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items: "{{ packages }}"
+
+    - name: Activate services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items: "{{ services }}"
