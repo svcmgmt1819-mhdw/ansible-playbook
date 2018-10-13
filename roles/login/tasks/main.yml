@@ -15,6 +15,8 @@
           - plugdev
           - netdev
       with_items: "{{ users }}"
+      tags:
+        - users
     
     - name: Setup SSH authorized_keys
       authorized_key:
@@ -22,6 +24,9 @@
         state: present
         key: "{{ item.sshkey }}"
       with_items: "{{ users }}"
+      tags:
+        - users
+        - sshkeys
       
     - name: Configure opensshd
       copy:
