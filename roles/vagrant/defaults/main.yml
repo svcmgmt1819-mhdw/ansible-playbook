@@ -1,0 +1,13 @@
+---    
+    debian_version: stretch
+
+    ssl_deps:
+        - "apt-transport-https"
+        - "ca-certificates"
+        - "curl"
+        - "gnupg2"
+        - "software-properties-common"
+
+    package_version: 2.2.0
+    package_url: "https://releases.hashicorp.com/vagrant/{{ package_version }}/vagrant_{{ package_version }}_x86_64.deb"
+    software_name: "Vagrant {{ package_version }}"

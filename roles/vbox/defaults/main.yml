@@ -1,0 +1,18 @@
+---    
+    debian_version: stretch
+    software_name: "VirtualBox"
+    packages:
+        - "virtualbox-5.2"
+
+    ssl_deps:
+        - "apt-transport-https"
+        - "ca-certificates"
+        - "curl"
+        - "gnupg2"
+        - "software-properties-common"
+
+    repositories:
+        - repo_url: "deb https://download.virtualbox.org/virtualbox/debian {{ debian_version }} contrib"
+          key:
+            key_url: "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+            key_id: "B9F8D658"

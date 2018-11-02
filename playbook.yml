@@ -8,3 +8,6 @@
         - docker
         - login
         - other_packages
+        - vbox
+        - ansible
+        - vagrant

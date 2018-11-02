@@ -1,0 +1,23 @@
+---      
+    - name: Install prerequisites for SSL repositories
+      apt:
+        name: "{{ ssl_deps }}"
+        state: present
+        update_cache: yes
+      tags:
+        - ssldep
+        - vagrant
+    
+    - name: "Install {{ software_name }} packages"
+      apt:
+        deb: "{{ package_url }}"
+        state: present
+        update_cache: yes
+      register: aptdbg
+      tags:
+        - vagrant
+    
+    - debug:
+        msg: "{% if 'stdout_lines' in aptdbg %}{{ aptdbg.stdout_lines[-1] }}{% else %}Nothing was done{% endif %}"
+      tags:
+        - vagrant

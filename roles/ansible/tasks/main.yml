@@ -1,0 +1,32 @@
+---
+    - name: "Add {{ software_name }} repository signing key"
+      apt_key:
+        id: "{{ item.key.key_id }}"
+        keyserver: "{{ item.key.key_server }}"
+        state: present
+      with_items: "{{ repositories }}"
+      tags:
+        - ansible
+    
+    - name: "Add {{ software_name }} repository"
+      apt_repository:
+        repo: "{{ item.repo_url }}"
+        state: present
+        update_cache: yes
+      with_items: "{{ repositories }}"
+      tags:
+        - ansible
+    
+    - name: "Install {{ software_name }} packages"
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      register: aptdbg
+      tags:
+        - ansible
+    
+    - debug:
+        msg: "{% if 'stdout_lines' in aptdbg %}{{ aptdbg.stdout_lines[-1] }}{% else %}Nothing was done{% endif %}"
+      tags:
+        - ansible

@@ -1,0 +1,13 @@
+---    
+    debian_version: stretch
+    software_name: "Ansible"
+    packages:
+        - "ansible"
+
+    # ref. https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-apt-debian
+    # 'trusty' is ok for debian stretch
+    repositories:
+        - repo_url: "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main"
+          key:
+            key_server: "keyserver.ubuntu.com"
+            key_id: "93C4A3FD7BB9C367"
