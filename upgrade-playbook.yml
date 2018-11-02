@@ -1,5 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
+    # The -K command line switch is needed to give ansible access to the `sudo` password.
+    # Upgrading the operating system requires root access
     - name: Upgrade hosts
       hosts: svcmgmt-docker
       tasks:
