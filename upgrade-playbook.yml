@@ -1,0 +1,9 @@
+#!/usr/bin/env ansible-playbook
+---
+    - name: Upgrade hosts
+      hosts: svcmgmt-docker
+      tasks:
+        - name: Upgrade system
+          apt:
+            update_cache: yes
+            upgrade: yes
