@@ -1,5 +1,6 @@
 ---
     - name: Create users
+      become: true
       user:
         name: "{{ item.name }}"
         state: present
@@ -14,11 +15,25 @@
           - video
           - plugdev
           - netdev
+        # ansible all -i localhost, -m debug -a "msg={{ 'svcmgmt1819' | password_hash('sha512', 'jPHhMVdRAmmC2NgbDaGvqXyk') }}"
+        password: $6$jPHhMVdRAmmC2Ngb$QIz6pgvyPc/EW3/AayQf.u/xGOBgc0oorCVnbvHeUqo.urJtZcH80MdxeHqkYMn0QP/LTWSdNY3ZVUkrsBQfr1
+        update_password: on_create
       with_items: "{{ users }}"
       tags:
         - users
     
+    - name: Disable vagrant user
+      become: true
+      user:
+        name: vagrant
+        password: !
+        update_password: always
+      tags:
+        - users
+        - vagrant
+    
     - name: Setup SSH authorized_keys
+      become: true
       authorized_key:
         user: "{{ item.name }}"
         state: present
@@ -26,12 +41,15 @@
       with_items: "{{ users }}"
       tags:
         - users
-        - sshkeys
+        - ssh
       
     - name: Configure opensshd
+      become: true
       copy:
         src: sshd_config
         dest: /etc/ssh/sshd_config
         owner: root
         group: root
         mode: 0640
+      tags:
+        - ssh

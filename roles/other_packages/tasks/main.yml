@@ -4,15 +4,20 @@
         that: "ansible_os_family == '{{ supported_os }}'"
 
     - name: Install other needed packages
+      become: true
       apt:
-        name: "{{ item }}"
+        name: "{{ packages }}"
         state: present
         update_cache: yes
-      with_items: "{{ packages }}"
+      tags:
+        - packages
 
     - name: Activate services
+      become: true
       systemd:
         name: "{{ item }}"
         state: started
         enabled: yes
       with_items: "{{ services }}"
+      tags:
+        - services
