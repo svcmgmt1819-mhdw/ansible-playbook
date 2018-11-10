@@ -2,7 +2,7 @@
 ---
 
     - name: Basic fresh VM tasks
-      hosts: svcmgmt-docker
+      hosts: all
       roles:
         - apparmor
         - docker
