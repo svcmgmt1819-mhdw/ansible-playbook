@@ -6,6 +6,7 @@
         state: present
         append: yes
         create_home: yes
+        shell: /bin/bash
         groups:
           - cdrom
           - sudo
