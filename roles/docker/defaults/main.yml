@@ -12,3 +12,4 @@
         - "software-properties-common"
     
     debian_version: stretch
+    docker_compose_version: 1.23.1
