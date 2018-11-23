@@ -1,0 +1,55 @@
+---
+    - name: Install pip to be able to setup python packages
+      become: true
+      apt:
+        name: python3-pip
+        state: present
+        update_cache: no
+      tags:
+        - pr08
+        - ansible-docker
+    
+    - name: Install pip dependency for ansible docker module
+      become: true
+      pip:
+        name: docker>=3.5
+        state: present
+      tags:
+        - pr08
+        - ansible-docker
+    
+    - name: Start Task 2 Docker Container
+      become: true
+      docker_container:
+        image: php:7.2-apache
+        name: pr08a2
+        auto_remove: yes
+        recreate: yes
+        published_ports:
+            - 0.0.0.0:20820:80
+        volumes:
+            - /vagrant/roles/pr08/files/htmlpub:/var/www/html
+        state: started
+      tags:
+        - pr08
+    
+    - name: Build custom Docker Image (Task 3)
+      become: true
+      docker_image:
+        path: /vagrant/roles/pr08/files
+        name: pr08a3
+      tags:
+        - pr08
+    
+    - name: Start Task 3 Docker Container
+      become: true
+      docker_container:
+        image: pr08a3
+        name: pr08a3
+        auto_remove: yes
+        recreate: yes
+        published_ports:
+            - 0.0.0.0:20830:80
+        state: started
+      tags:
+        - pr08

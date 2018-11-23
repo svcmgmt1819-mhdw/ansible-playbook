@@ -70,6 +70,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "playbook.yml"
     ansible.extra_vars = { ansible_python_interpreter: "/usr/bin/python3" }
-    ansible.tags = ["docker", "docker_compose", "users", "ssh", "packages", "services"]
+    ansible.tags = ["docker", "docker_compose", "users", "ssh", "packages", "services", "pr08"]
   end
 end
