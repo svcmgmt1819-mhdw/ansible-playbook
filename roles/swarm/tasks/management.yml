@@ -19,6 +19,7 @@
 #        - swarmapp
 
     - name: Deploy stacks
+      become: true
       command: /vagrant/roles/swarm/files/deploy-stacks.sh
       tags:
         - swarmapp
