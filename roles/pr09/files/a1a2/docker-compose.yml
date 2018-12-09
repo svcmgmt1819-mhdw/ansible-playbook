@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  webserver:
+    image: php:7.2-apache
+    container_name: phpwebserver
+    restart: on-failure
+    volumes:
+      - /vagrant/roles/pr08/files/htmlpub:/var/www/html
+    networks:
+      - frontend
+    ports:
+      - "20961:80"
+  toolbox:
+    build: /vagrant/roles/pr09/files/a1a2/toolbox
+    container_name: toolbox
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    volumes:
+      - /vagrant/roles/pr09/files/a1a2:/mnt
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    driver: bridge

@@ -56,3 +56,28 @@
         mode: 0755
       tags:
         - docker_compose
+    
+    - name: Install pip to be able to setup python packages
+      become: true
+      apt:
+        name: python3-pip
+        state: present
+        update_cache: no
+      tags:
+        - ansible-docker
+    
+    - name: Install pip dependency for ansible docker module
+      become: true
+      pip:
+        name: docker>=3.5
+        state: present
+      tags:
+        - ansible-docker
+    
+    - name: Install pip dependency for ansible docker compose module
+      become: true
+      pip:
+        name: docker-compose
+        state: present
+      tags:
+        - ansible-docker

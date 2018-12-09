@@ -1,23 +1,4 @@
----
-    - name: Install pip to be able to setup python packages
-      become: true
-      apt:
-        name: python3-pip
-        state: present
-        update_cache: no
-      tags:
-        - pr08
-        - ansible-docker
-    
-    - name: Install pip dependency for ansible docker module
-      become: true
-      pip:
-        name: docker>=3.5
-        state: present
-      tags:
-        - pr08
-        - ansible-docker
-    
+---    
     - name: Start Task 2 Docker Container
       become: true
       docker_container:

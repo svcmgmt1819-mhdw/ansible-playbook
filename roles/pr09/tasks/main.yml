@@ -1,0 +1,16 @@
+---
+    - name: Start Webserver services via Docker Compose
+      become: true
+      docker_service:
+        project_src: /vagrant/roles/pr09/files/a1a2
+        state: present
+      tags:
+        - pr09
+
+    - name: Start Activity Log services via Docker Compose
+      become: true
+      docker_service:
+        project_src: /vagrant/roles/pr09/files/activitylog
+        state: present
+      tags:
+        - pr09
