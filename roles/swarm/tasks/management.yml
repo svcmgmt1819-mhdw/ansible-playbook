@@ -1,0 +1,25 @@
+---
+
+#    - name: Deploy Portainer Stack
+#      docker_stack:
+#        state: present
+#        name: portainer
+#        compose:
+#            - /vagrant/roles/swarm/files/portainer-agent-stack.yml
+#      tags:
+#        - swarmapp
+
+#    - name: Deploy Visualizer Stack
+#      docker_stack:
+#        state: present
+#        name: portainer
+#        compose:
+#            - /vagrant/roles/swarm/files/visualizer.yml
+#      tags:
+#        - swarmapp
+
+    - name: Deploy stacks
+      command: /vagrant/roles/swarm/files/deploy-stacks.sh
+      tags:
+        - swarmapp
+      when: dockhost_no|int == 0

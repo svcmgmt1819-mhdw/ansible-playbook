@@ -1,0 +1,83 @@
+---
+    - name: "First node: Create the Swarm"
+      become: true
+      docker_swarm:
+        advertise_addr: "172.16.0.10{{ dockhost_no }}:2377"
+        state: present
+      tags:
+        - swarm
+      register: swarm_init
+      when: dockhost_no|int == 0
+    
+    - name: Write out Manager Token
+      copy:
+        content: "{{ swarm_init.swarm_facts.JoinTokens.Manager }}"
+        dest: "/vagrant/Manager_Token"
+      tags:
+        - swarm
+      when: dockhost_no|int == 0
+    
+    - name: Write out Worker Token
+      copy:
+        content: "{{ swarm_init.swarm_facts.JoinTokens.Worker }}"
+        dest: "/vagrant/Worker_Token"
+      tags:
+        - swarm
+      when: dockhost_no|int == 0
+    
+    # cf. https://stackoverflow.com/questions/24003880/ansible-set-variable-to-file-content
+    - name: Load Manager Token
+      slurp:
+        src: "/vagrant/Manager_Token"
+      register: b64_manager_token
+      tags:
+        - swarm
+      when: not dockhost_no|int == 0
+    
+    - name: Decode Decode Manager Token and store as fact
+      set_fact:
+        manager_token: "{{ b64_manager_token.content | b64decode }}"
+      tags:
+        - swarm
+      when: not dockhost_no|int == 0
+    
+    - name: Manager Token Value
+      debug:
+        msg: "{{ manager_token }}"
+      tags:
+        - swarm
+      when: not dockhost_no|int == 0
+    
+    - name: Join Swarm as Manager
+      become: true
+      docker_swarm:
+        state: join
+        advertise_addr: "172.16.0.10{{ dockhost_no }}:2377"
+        join_token: "{{ manager_token }}"
+        remote_addrs: ['172.16.0.100:2377']
+      tags:
+        - swarm
+      register: swarm_join
+      when: not dockhost_no|int == 0
+
+    - name: Swarm Initialization Info
+      debug:
+        msg: "{{ swarm_init }}"
+      tags:
+        - swarm
+    
+    - name: Swarm Join Info
+      debug:
+        msg: "{{ swarm_join }}"
+      tags:
+        - swarm
+    
+    - import_tasks: management.yml
+    
+#    - name: Leave the Swarm again
+#      become: true
+#      docker_swarm:
+#        state: absent
+#        force: true
+#      tags:
+#        - swarm

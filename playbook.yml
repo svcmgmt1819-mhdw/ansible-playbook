@@ -6,6 +6,7 @@
       roles:
         - apparmor
         - docker
+        - swarm
         - login
         - other_packages
         - vbox
