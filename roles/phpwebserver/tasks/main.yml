@@ -9,7 +9,7 @@
         published_ports:
             - 0.0.0.0:20820:80
         volumes:
-            - /vagrant/roles/pr08/files/htmlpub:/var/www/html
+            - /vagrant/roles/phpwebserver/files/htmlpub:/var/www/html
         state: started
       tags:
         - pr08
@@ -17,7 +17,7 @@
     - name: Build custom Docker Image (Task 3)
       become: true
       docker_image:
-        path: /vagrant/roles/pr08/files
+        path: /vagrant/roles/phpwebserver/files
         name: pr08a3
       tags:
         - pr08

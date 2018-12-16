@@ -12,5 +12,5 @@
         - vbox
         - ansible
         - vagrant
-        - pr08
-        - pr09
+        - phpwebserver
+        - activitywebserver
