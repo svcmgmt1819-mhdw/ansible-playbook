@@ -73,7 +73,6 @@
         - swarm
     
     - import_tasks: management.yml
-    - import_tasks: tests.yml
     
 #    - name: Leave the Swarm again
 #      become: true

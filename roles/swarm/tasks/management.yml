@@ -18,9 +18,16 @@
 #      tags:
 #        - swarmapp
 
-    - name: Deploy stacks
+    - name: Deploy Management Services
       become: true
       command: /vagrant/roles/swarm/files/deploy-stacks.sh
+      tags:
+        - swarmapp
+      when: dockhost_no|int == 0
+    
+    - name: Deploy Webserver Services
+      become: true
+      command: /vagrant/roles/swarm/files/deploy-webserver.sh
       tags:
         - swarmapp
       when: dockhost_no|int == 0

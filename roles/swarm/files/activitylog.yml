@@ -35,7 +35,7 @@ services:
       mode: replicated
       replicas: 1
   
-  activitylog:
+  websiteblue:
     depends_on:
       - db
     image: marcoh00/activitylog
@@ -43,13 +43,65 @@ services:
       - dbnet
     restart: on-failure
     ports:
-      - "0.0.0.0:80:80"
+      - "0.0.0.0:21111:80"
     environment:
       DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
+      COLOR: 0000FF
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 2
       placement:
         constraints: [node.platform.os == linux]
+  websitered:
+    depends_on:
+      - db
+    image: marcoh00/activitylog
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "0.0.0.0:21112:80"
+    environment:
+      DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
+      COLOR: FF0000
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints: [node.platform.os == linux]
+  websitegreen:
+    depends_on:
+      - db
+    image: marcoh00/activitylog
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "0.0.0.0:21113:80"
+    environment:
+      DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
+      COLOR: 0FFF00
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints: [node.platform.os == linux]
+
+  loadbalancer:
+    depends_on:
+      - websiteblue
+      - websitered
+      - websitegreen
+    image: nginx:stable
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "0.0.0.0:80:80"
+    volumes:
+      - /vagrant/roles/swarm/files/nginx-loadbalancer.conf:/etc/nginx/nginx.conf
+    deploy:
+      mode: global
 
 volumes:
   dbdata:
